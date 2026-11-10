@@ -39,25 +39,22 @@ export const AdvancedTools: m.Component<{ state: State }> = {
     return m(
       CollapsibleSection,
       {
-        title: "Advanced Tools",
+        title: "高级工具",
         defaultOpen: false,
       },
       [
         m("div.field", [
-          m("label.label", "Custom File Upload"),
+          m("label.label", "自定义图片上传"),
           m("div.control", [
             m("input.input[type=file]#customFileInput", {
               accept: "image/*",
               onchange: handleFileUpload,
             }),
           ]),
-          m(
-            "p.help",
-            "Upload a local image file to overlay on the spritesheet",
-          ),
+          m("p.help", "上传本地图片文件，叠加到精灵表上"),
         ]),
         m("div.field", [
-          m("label.label", "Z-Position"),
+          m("label.label", "Z 轴位置"),
           m("div.control", [
             m("input.input[type=number]", {
               value: state.customImageZPos,
@@ -66,7 +63,7 @@ export const AdvancedTools: m.Component<{ state: State }> = {
             }),
           ]),
           m("p.help", [
-            "Layer order: ",
+            "图层顺序: ",
             m("code", "0=shadow"),
             ", ",
             m("code", "10=body"),
@@ -84,7 +81,7 @@ export const AdvancedTools: m.Component<{ state: State }> = {
                 {
                   onclick: clearCustomImage,
                 },
-                "Clear Custom Image",
+                "清除自定义图片",
               ),
             ]),
           ]),

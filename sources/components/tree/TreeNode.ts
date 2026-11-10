@@ -1,5 +1,6 @@
 import m from "mithril";
 import classNames from "classnames";
+import { tName } from "../../i18n.ts";
 import type {
   TreeItemModel,
   TreeNodeModel,
@@ -39,7 +40,7 @@ function renderItem(item: TreeItemModel) {
       title: item.tooltip,
       onclick: item.select,
     },
-    [item.name, !item.isCompatible ? m("span.ml-1", "⚠️") : null],
+    [tName(item.name), !item.isCompatible ? m("span.ml-1", "⚠️") : null],
   );
 }
 
@@ -63,7 +64,7 @@ export const TreeNode: m.Component<{
           m("span.tree-arrow", {
             class: model.isExpanded ? "expanded" : "collapsed",
           }),
-          m("span", model.name),
+          m("span", tName(model.name)),
           !model.isCompatible ? m("span.ml-1", "⚠️") : null,
         ],
       ),

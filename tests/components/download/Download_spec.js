@@ -8,7 +8,7 @@ import { createCatalog } from "../../../sources/state/catalog.ts";
 import { createState } from "../../../sources/state/state.ts";
 import { seedCatalog } from "../../browser-catalog-fixture.js";
 
-const ZIP_TITLE = "Wait for layer data to finish loading";
+const ZIP_TITLE = "等待图层数据加载完成";
 
 function buttonByText(host, text) {
   return [...host.querySelectorAll("button")].find(
@@ -98,13 +98,13 @@ describe("Download", function () {
     };
     m.render(host, m(Download, { createModel: () => createModel(commands) }));
 
-    buttonByText(host, "Spritesheet (PNG)").click();
-    buttonByText(host, "Credits (TXT)").click();
-    buttonByText(host, "Credits (CSV)").click();
-    buttonByText(host, "ZIP: Split by animation").click();
-    buttonByText(host, "ZIP: Split by item").click();
-    buttonByText(host, "ZIP: Split by animation and item").click();
-    buttonByText(host, "ZIP: Split by animation and frame").click();
+    buttonByText(host, "精灵表 (PNG)").click();
+    buttonByText(host, "署名 (TXT)").click();
+    buttonByText(host, "署名 (CSV)").click();
+    buttonByText(host, "ZIP: 按动画拆分").click();
+    buttonByText(host, "ZIP: 按部件拆分").click();
+    buttonByText(host, "ZIP: 按动画和部件拆分").click();
+    buttonByText(host, "ZIP: 按动画和帧拆分").click();
 
     for (const command of Object.values(commands))
       assert.isTrue(command.calledOnce);
@@ -128,12 +128,12 @@ describe("Download", function () {
       }),
     );
 
-    buttonByText(host, "Export to Clipboard (JSON)").click();
+    buttonByText(host, "导出到剪贴板 (JSON)").click();
     await Promise.resolve();
     await Promise.resolve();
     assert.isTrue(alertStub.calledWith("Exported to clipboard!"));
 
-    buttonByText(host, "Import from Clipboard (JSON)").click();
+    buttonByText(host, "从剪贴板导入 (JSON)").click();
     await Promise.resolve();
     await Promise.resolve();
     assert.isTrue(
@@ -146,7 +146,7 @@ describe("Download", function () {
     );
 
     const alertCount = alertStub.callCount;
-    buttonByText(host, "Import from Clipboard (JSON)").click();
+    buttonByText(host, "从剪贴板导入 (JSON)").click();
     await Promise.resolve();
     await Promise.resolve();
     assert.strictEqual(alertStub.callCount, alertCount);
@@ -194,7 +194,7 @@ describe("Download", function () {
       ],
     });
 
-    buttonByText(host, "Import from Clipboard (JSON)").click();
+    buttonByText(host, "从剪贴板导入 (JSON)").click();
     await new Promise((resolve) => requestAnimationFrame(resolve));
     await new Promise((resolve) => requestAnimationFrame(resolve));
     assert.strictEqual(

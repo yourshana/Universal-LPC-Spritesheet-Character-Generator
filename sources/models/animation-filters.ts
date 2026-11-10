@@ -40,7 +40,9 @@ export const animationFiltersModelFactory = {
     return {
       liteReady: catalog.isLiteReady(),
       summary:
-        enabledCount > 0 ? `(${enabledCount}/${ANIMATIONS.length})` : "(All)",
+        enabledCount > 0
+          ? `（${enabledCount}/${ANIMATIONS.length}）`
+          : "（全部）",
       options: ANIMATIONS.map((animation) => ({
         value: animation.value,
         label: animation.label,

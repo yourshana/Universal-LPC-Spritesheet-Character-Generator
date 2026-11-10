@@ -14,7 +14,7 @@ import {
   isItemLicenseCompatible,
   isNodeAnimationCompatible,
 } from "../state/filters.ts";
-import { BODY_TYPES } from "../state/constants.ts";
+import { BODY_TYPE_LABELS, BODY_TYPES } from "../state/constants.ts";
 import { capitalize, matchesSearch, nodeHasMatches } from "../utils/helpers.ts";
 import {
   itemWithVariantsModelFactory,
@@ -104,7 +104,7 @@ function itemTooltip(
   isLicenseCompatible: boolean,
   isAnimationCompatible: boolean,
 ): string {
-  let licensesText = "License info loading…";
+  let licensesText = "正在加载许可证信息…";
   if (catalog.isCreditsReady()) {
     const licenses = new Set<string>();
     for (const credit of catalog.getItemCredits(itemId).unwrapOr([])) {
@@ -112,20 +112,18 @@ function itemTooltip(
     }
     licensesText =
       licenses.size > 0
-        ? `Licenses: ${Array.from(licenses).join(", ")}`
-        : "No license info";
+        ? `许可证: ${Array.from(licenses).join(", ")}`
+        : "无许可证信息";
   }
 
   const animationsText = meta.animations?.length
-    ? `Animations: ${meta.animations.join(", ")}`
-    : "No animation info";
+    ? `动画: ${meta.animations.join(", ")}`
+    : "无动画信息";
   const issues = [
-    !isLicenseCompatible ? "licenses" : null,
-    !isAnimationCompatible ? "animations" : null,
+    !isLicenseCompatible ? "许可证" : null,
+    !isAnimationCompatible ? "动画" : null,
   ].filter(Boolean);
-  const warning = issues.length
-    ? `⚠️ Incompatible with selected ${issues.join(" and ")}\n`
-    : "";
+  const warning = issues.length ? `⚠️ 与所选${issues.join("和")}不兼容\n` : "";
   return `${warning}${licensesText}\n${animationsText}`;
 }
 
@@ -299,7 +297,7 @@ export const categoryTreeModelFactory = {
         selected: state.bodyType,
         options: BODY_TYPES.map((value) => ({
           value,
-          label: capitalize(value),
+          label: BODY_TYPE_LABELS[value] ?? capitalize(value),
         })),
         select: (value) => {
           state.bodyType = value;

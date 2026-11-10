@@ -47,7 +47,7 @@ describe("SearchControl", function () {
         createModel: () => ({
           value: "",
           disabled: true,
-          title: "Loading item list…",
+          title: "正在加载部件列表…",
           setValue() {},
         }),
       }),
@@ -55,7 +55,7 @@ describe("SearchControl", function () {
 
     const input = host.querySelector("input");
     assert.isTrue(input.disabled);
-    assert.strictEqual(input.title, "Loading item list…");
+    assert.strictEqual(input.title, "正在加载部件列表…");
   });
 
   it("creates a live search command from catalog and state", function () {

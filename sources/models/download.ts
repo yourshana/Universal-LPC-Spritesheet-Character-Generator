@@ -39,7 +39,7 @@ export type DownloadModel = {
   importJsonFromClipboard(): Promise<ClipboardCommandResult>;
 };
 
-const zipExportTitle = "Wait for layer data to finish loading";
+const zipExportTitle = "等待图层数据加载完成";
 
 export const downloadModelFactory = {
   create(catalog: CatalogReader, state: State): DownloadModel {

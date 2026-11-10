@@ -50,22 +50,22 @@ export const currentSelectionsModelFactory = {
         }
 
         const licensesText = !creditsReady
-          ? "License info loading…"
+          ? "正在加载许可证信息…"
           : licenses.size > 0
-            ? `Licenses: ${Array.from(licenses).join(", ")}`
-            : "No license info";
+            ? `许可证: ${Array.from(licenses).join(", ")}`
+            : "无许可证信息";
         const supportedAnimations = meta?.animations ?? [];
         const animationsText =
           supportedAnimations.length > 0
-            ? `Animations: ${supportedAnimations.join(", ")}`
-            : "No animation info";
+            ? `动画: ${supportedAnimations.join(", ")}`
+            : "无动画信息";
         const incompatibility = !isCompatible
-          ? `⚠️ Incompatible with selected ${[
-              !licenseCompatible ? "licenses" : null,
-              !animationCompatible ? "animations" : null,
+          ? `⚠️ 与所选${[
+              !licenseCompatible ? "许可证" : null,
+              !animationCompatible ? "动画" : null,
             ]
               .filter(Boolean)
-              .join(" and ")}\n`
+              .join("和")}不兼容\n`
           : "";
 
         return {

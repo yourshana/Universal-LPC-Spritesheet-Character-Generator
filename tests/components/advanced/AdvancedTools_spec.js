@@ -42,7 +42,7 @@ describe("AdvancedTools", function () {
     assert.notEqual(host.querySelector('input[type="number"]'), null);
     assert.strictEqual(
       [...host.querySelectorAll("button")].find(
-        (btn) => btn.textContent.trim() === "Clear Custom Image",
+        (btn) => btn.textContent.trim() === "清除自定义图片",
       ),
       undefined,
     );
@@ -90,7 +90,7 @@ describe("AdvancedTools", function () {
       assert.notEqual(state.customUploadedImage, null);
       assert.notEqual(
         [...host.querySelectorAll("button")].find(
-          (btn) => btn.textContent.trim() === "Clear Custom Image",
+          (btn) => btn.textContent.trim() === "清除自定义图片",
         ),
         undefined,
       );
@@ -112,7 +112,7 @@ describe("AdvancedTools", function () {
     fileInput.files = data.files;
 
     const clear = [...host.querySelectorAll("button")].find(
-      (btn) => btn.textContent.trim() === "Clear Custom Image",
+      (btn) => btn.textContent.trim() === "清除自定义图片",
     );
     clear.click();
     m.redraw.sync();

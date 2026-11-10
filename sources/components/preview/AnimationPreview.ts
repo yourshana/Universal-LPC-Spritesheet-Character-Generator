@@ -172,7 +172,7 @@ export const AnimationPreview: m.Component<
     return m(
       CollapsibleSection,
       {
-        title: "Animation Preview",
+        title: "动画预览",
         defaultOpen: true,
         boxClass: "box",
       },
@@ -180,9 +180,7 @@ export const AnimationPreview: m.Component<
         m("div.columns.is-multiline", [
           m("div.column", [
             m("div.field.is-horizontal.is-align-items-center", [
-              m("div.field-label.is-normal", [
-                m("label.label.mb-0", "Animation"),
-              ]),
+              m("div.field-label.is-normal", [m("label.label.mb-0", "动画")]),
               m("div.field-body", [
                 m("div.field.has-addons.mb-0", [
                   m("div.control", [
@@ -222,7 +220,7 @@ export const AnimationPreview: m.Component<
               m("div.field-label.is-normal", [
                 m(
                   "label.label.mb-0",
-                  `Zoom: ${Math.round(vnode.state.zoomLevel * 100)}%`,
+                  `缩放: ${Math.round(vnode.state.zoomLevel * 100)}%`,
                 ),
               ]),
               m("div.field-body", [
@@ -263,7 +261,7 @@ export const AnimationPreview: m.Component<
                 state.isRenderingCharacter
                   ? m("div.preview-canvas-busy", { "aria-hidden": true }, [
                       m("span.loading", {
-                        "aria-label": "Rendering character",
+                        "aria-label": "正在渲染角色",
                       }),
                     ])
                   : null,

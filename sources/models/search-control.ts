@@ -14,7 +14,7 @@ export const searchControlModelFactory = {
     return {
       value: state.searchQuery,
       disabled,
-      title: disabled ? "Loading item list…" : undefined,
+      title: disabled ? "正在加载部件列表…" : undefined,
       setValue(value) {
         state.searchQuery = value;
       },

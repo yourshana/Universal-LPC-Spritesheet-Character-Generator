@@ -25,7 +25,7 @@ export const BodyTypeSelector: m.Component<
           m("span.tree-arrow", {
             class: vnode.state.isExpanded ? "expanded" : "collapsed",
           }),
-          m("span.has-text-weight-semibold", "Body Type"),
+          m("span.has-text-weight-semibold", "体型"),
         ],
       ),
       vnode.state.isExpanded

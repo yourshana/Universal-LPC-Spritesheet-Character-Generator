@@ -30,10 +30,10 @@ describe("Credits", function () {
 
   it("renders loading and empty snapshots", function () {
     m.render(host, m(Credits, { createModel: () => ({ kind: "loading" }) }));
-    assert.include(host.textContent, "Loading selections…");
+    assert.include(host.textContent, "正在加载选择…");
 
     m.render(host, m(Credits, { createModel: () => ({ kind: "empty" }) }));
-    assert.include(host.textContent, "No items selected");
+    assert.include(host.textContent, "未选择任何部件");
   });
 
   it("renders supplied credits and invokes download commands", function () {
@@ -63,8 +63,8 @@ describe("Credits", function () {
     assert.include(host.textContent, "Eye assets");
     assert.include(host.textContent, "CC-BY-SA");
     assert.include(host.textContent, "Alex");
-    buttonByText(host, "Download TXT").click();
-    buttonByText(host, "Download CSV").click();
+    buttonByText(host, "下载 TXT").click();
+    buttonByText(host, "下载 CSV").click();
     assert.isTrue(downloadTxt.calledOnce);
     assert.isTrue(downloadCsv.calledOnce);
   });

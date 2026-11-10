@@ -43,8 +43,8 @@ describe("CurrentSelections", function () {
   it("shows loading copy when item list (lite) is not ready", function () {
     renderCurrentSelections();
 
-    assert.include(host.textContent, "Current Selections");
-    assert.include(host.textContent, "Loading item list…");
+    assert.include(host.textContent, "当前选择");
+    assert.include(host.textContent, "正在加载部件列表…");
     assert.strictEqual(host.querySelector(".tags"), null);
   });
 
@@ -91,7 +91,7 @@ describe("CurrentSelections", function () {
 
     renderCurrentSelections();
 
-    assert.include(host.textContent, "No items selected yet");
+    assert.include(host.textContent, "尚未选择任何部件");
     assert.strictEqual(host.querySelector(".tag"), null);
   });
 
@@ -116,7 +116,7 @@ describe("CurrentSelections", function () {
     assert.strictEqual(loadingModel.kind, "ready");
     assert.strictEqual(
       loadingModel.items[0].tooltip,
-      "License info loading…\nAnimations: walk",
+      "正在加载许可证信息…\n动画: walk",
     );
 
     catalogWriter.registerCreditsMetadata({
@@ -165,7 +165,7 @@ describe("CurrentSelections", function () {
 
     const heading = host.querySelector("h3.title");
     assert.notEqual(heading, null);
-    assert.strictEqual(heading.textContent, "Current Selections");
+    assert.strictEqual(heading.textContent, "当前选择");
 
     const tags = host.querySelectorAll("span.tag.is-medium.is-info");
     assert.strictEqual(tags.length, 2);
@@ -261,6 +261,6 @@ describe("CurrentSelections", function () {
     assert.deepEqual(state.selections, {});
     // `m.render` roots do not always redraw after inline handlers in tests; re-sync the tree.
     renderCurrentSelections();
-    assert.include(host.textContent, "No items selected yet");
+    assert.include(host.textContent, "尚未选择任何部件");
   });
 });

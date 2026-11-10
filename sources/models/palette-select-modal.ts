@@ -132,14 +132,14 @@ export const paletteSelectModalModelFactory = {
     select: (recolor: string) => void,
   ): PaletteSelectModalModel {
     if (!catalog.isPaletteReady()) {
-      return { loadingMessage: "Loading palette data…" };
+      return { loadingMessage: "正在加载调色板数据…" };
     }
     if (!catalog.isLiteReady() || !catalog.isLayersReady()) {
       return { loadingMessage: "Loading layer data…" };
     }
     const palette = catalog.getPaletteMetadata().unwrapOr(null);
     const item = catalog.getItemMerged(itemId).unwrapOr(null);
-    if (!palette) return { loadingMessage: "Loading palette data…" };
+    if (!palette) return { loadingMessage: "正在加载调色板数据…" };
     if (!item) return { loadingMessage: "Loading layer data…" };
     return createReadyModel(
       catalog,

@@ -1,5 +1,6 @@
 // Item with recolors component
 import m from "mithril";
+import { tName } from "../../i18n.ts";
 import classNames from "classnames";
 import type {
   ItemWithRecolorsModel,
@@ -90,7 +91,7 @@ export const ItemWithRecolors: m.Component<
             m("span.tree-arrow", {
               class: isExpanded ? "expanded" : "collapsed",
             }),
-            m("span", displayName),
+            m("span", tName(displayName)),
             !isCompatible ? m("span.ml-1", "⚠️") : null,
           ],
         ),
@@ -203,7 +204,7 @@ export const ItemWithRecolors: m.Component<
                     : null,
                 ],
               ),
-              m("p.is-size-7.has-text-grey.mt-2", "Loading palette data…"),
+              m("p.is-size-7.has-text-grey.mt-2", "正在加载调色板数据…"),
             ])
           : isExpanded
             ? m("div", [

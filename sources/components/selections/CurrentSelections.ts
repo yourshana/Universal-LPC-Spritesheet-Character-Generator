@@ -1,5 +1,6 @@
 // Current selections component
 import m from "mithril";
+import { tName } from "../../i18n.ts";
 import type { CurrentSelectionsModel } from "../../models/current-selections.ts";
 
 export const CurrentSelections: m.Component<{
@@ -11,20 +12,20 @@ export const CurrentSelections: m.Component<{
     const model = vnode.attrs.createModel();
     if (model.kind === "loading") {
       return m("div", [
-        m("h3.title.is-5", "Current Selections"),
-        m("p.is-size-7.has-text-grey", "Loading item list…"),
+        m("h3.title.is-5", "当前选择"),
+        m("p.is-size-7.has-text-grey", "正在加载部件列表…"),
       ]);
     }
 
     if (model.kind === "empty") {
       return m("div", [
-        m("h3.title.is-5", "Current Selections"),
-        m("p.has-text-grey", "No items selected yet"),
+        m("h3.title.is-5", "当前选择"),
+        m("p.has-text-grey", "尚未选择任何部件"),
       ]);
     }
 
     return m("div", [
-      m("h3.title.is-5", "Current Selections"),
+      m("h3.title.is-5", "当前选择"),
       m(
         "div.tags",
         model.items.map((item) => {
@@ -36,7 +37,7 @@ export const CurrentSelections: m.Component<{
               title: item.tooltip,
             },
             [
-              m("span", item.name),
+              m("span", tName(item.name)),
               !item.isCompatible ? m("span.ml-1", "⚠️") : null,
               m("button.delete.is-small", {
                 onclick: item.remove,

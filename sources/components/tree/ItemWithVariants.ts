@@ -1,5 +1,6 @@
 import m from "mithril";
 import classNames from "classnames";
+import { tName } from "../../i18n.ts";
 import type { ItemWithVariantsModel } from "../../models/item-with-variants.ts";
 
 type VariantLoadState = {
@@ -61,7 +62,7 @@ export const ItemWithVariants: m.Component<
             m("span.tree-arrow", {
               class: model.isExpanded ? "expanded" : "collapsed",
             }),
-            m("span", model.name),
+            m("span", tName(model.name)),
             !model.isCompatible ? m("span.ml-1", "⚠️") : null,
           ],
         ),
@@ -100,7 +101,7 @@ export const ItemWithVariants: m.Component<
                     [
                       m(
                         "span.variant-display-name.has-text-centered.is-size-7",
-                        variant.label,
+                        tName(variant.label),
                       ),
                       m("canvas.variant-canvas.box.p-0", {
                         width: variant.size,

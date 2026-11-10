@@ -46,7 +46,7 @@ export const licenseFiltersModelFactory = {
     return {
       liteReady: catalog.isLiteReady(),
       creditsReady,
-      summary: `(${enabledCount}/${LICENSE_CONFIG.length} enabled)`,
+      summary: `（已启用 ${enabledCount}/${LICENSE_CONFIG.length}）`,
       options: LICENSE_CONFIG.map((license) => ({
         key: license.key,
         label: license.label,

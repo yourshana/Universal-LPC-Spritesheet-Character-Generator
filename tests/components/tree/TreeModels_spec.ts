@@ -11,7 +11,10 @@ import {
   createCatalog,
   type CatalogReader,
 } from "../../../sources/state/catalog.ts";
-import { BODY_TYPES } from "../../../sources/state/constants.ts";
+import {
+  BODY_TYPE_LABELS,
+  BODY_TYPES,
+} from "../../../sources/state/constants.ts";
 import { createState } from "../../../sources/state/state.ts";
 import { seedCatalog } from "../../browser-catalog-fixture.js";
 
@@ -45,7 +48,7 @@ describe("Tree models", () => {
     expect(model.bodyTypes.options).to.deep.equal(
       BODY_TYPES.map((value) => ({
         value,
-        label: value[0].toUpperCase() + value.slice(1),
+        label: BODY_TYPE_LABELS[value],
       })),
     );
 

@@ -17,9 +17,9 @@ export const LicenseFilters: m.Component<
     const removeIncompatibleItems = () => {
       const removedCount = model.removeIncompatible();
       if (removedCount > 0) {
-        alert(`Removed ${removedCount} incompatible item(s)`);
+        alert(`已移除 ${removedCount} 个不兼容部件`);
       } else {
-        alert("No incompatible items found");
+        alert("未找到不兼容的部件");
       }
     };
 
@@ -37,20 +37,17 @@ export const LicenseFilters: m.Component<
           m("span.tree-arrow", {
             class: vnode.state.isExpanded ? "expanded" : "collapsed",
           }),
-          m("span.title.is-6.is-inline", "License Filters"),
+          m("span.title.is-6.is-inline", "许可证筛选"),
           m("span.is-size-7.has-text-grey.ml-2", model.summary),
         ],
       ),
       vnode.state.isExpanded
         ? m("div.content.mt-3", [
             !model.liteReady
-              ? m("p.is-size-7.has-text-grey.mb-3", "Loading item list…")
+              ? m("p.is-size-7.has-text-grey.mb-3", "正在加载部件列表…")
               : null,
             !model.creditsReady
-              ? m(
-                  "p.is-size-7.has-text-grey.mb-3",
-                  "Loading asset license data…",
-                )
+              ? m("p.is-size-7.has-text-grey.mb-3", "正在加载部件许可证数据…")
               : null,
             m(
               "ul.tree-list",
@@ -73,7 +70,7 @@ export const LicenseFilters: m.Component<
                         target: "_blank",
                         rel: "noopener noreferrer",
                       },
-                      `(Show license${license.urlLabel ? " " + license.urlLabel : ""})`,
+                      `（查看许可证${license.urlLabel ? " " + license.urlLabel : ""}）`,
                     ),
                   ]),
                 ]),
@@ -85,19 +82,19 @@ export const LicenseFilters: m.Component<
                     m("p.is-size-7", [
                       m(
                         "strong",
-                        `${model.incompatibleCount} selected item${model.incompatibleCount > 1 ? "s are" : " is"} incompatible`,
+                        `${model.incompatibleCount} 个已选部件不兼容`,
                       ),
-                      " with your current license selection. ",
-                      m("span.has-text-grey", "(marked with ⚠️ above)"),
+                      "，与当前许可证筛选冲突。 ",
+                      m("span.has-text-grey", "（上面标有 ⚠️ 的）"),
                     ]),
                   ]),
                   m(
                     "button.button.is-small.is-warning.mt-2",
                     {
                       onclick: removeIncompatibleItems,
-                      title: `Remove ${model.incompatibleCount} incompatible item${model.incompatibleCount > 1 ? "s" : ""}`,
+                      title: `移除 ${model.incompatibleCount} 个不兼容部件`,
                     },
-                    `Remove ${model.incompatibleCount} Incompatible Asset${model.incompatibleCount > 1 ? "s" : ""}`,
+                    `移除 ${model.incompatibleCount} 个不兼容部件`,
                   ),
                 ]
               : null,

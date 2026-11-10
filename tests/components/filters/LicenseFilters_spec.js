@@ -56,8 +56,8 @@ describe("LicenseFilters Component", function () {
 
     assert.include(host.textContent, "(1/2 enabled)");
     expand();
-    assert.include(host.textContent, "Loading item list…");
-    assert.include(host.textContent, "Loading asset license data…");
+    assert.include(host.textContent, "正在加载部件列表…");
+    assert.include(host.textContent, "正在加载部件许可证数据…");
 
     const checkbox = host.querySelector("input[type=checkbox]");
     assert.isTrue(checkbox.checked);
@@ -78,9 +78,9 @@ describe("LicenseFilters Component", function () {
     });
     expand();
 
-    assert.include(host.textContent, "2 selected items are incompatible");
+    assert.include(host.textContent, "2 个已选部件不兼容");
     host.querySelector("button.is-warning").click();
-    assert.isTrue(alertStub.calledOnceWith("Removed 2 incompatible item(s)"));
+    assert.isTrue(alertStub.calledOnceWith("已移除 2 个不兼容部件"));
   });
 
   it("reports when a rendered incompatibility is gone before removal", function () {
@@ -95,7 +95,7 @@ describe("LicenseFilters Component", function () {
     expand();
 
     host.querySelector("button.is-warning").click();
-    assert.isTrue(alertStub.calledOnceWith("No incompatible items found"));
+    assert.isTrue(alertStub.calledOnceWith("未找到不兼容的部件"));
   });
 
   it("derives compatibility and commands from catalog and state", function () {

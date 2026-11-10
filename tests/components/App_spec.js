@@ -97,10 +97,10 @@ describe("App", function () {
     const titles = [...host.querySelectorAll("h3.collapsible-title")].map(
       (el) => el.textContent,
     );
-    assert.include(titles, "Download");
-    assert.include(titles, "Filters");
-    assert.include(titles, "Credits & Attribution");
-    assert.include(titles, "Advanced Tools");
+    assert.include(titles, "下载");
+    assert.include(titles, "筛选器");
+    assert.include(titles, "署名与致谢");
+    assert.include(titles, "高级工具");
   });
 
   it("does not build filter models while Filters is collapsed", function () {
@@ -158,7 +158,7 @@ describe("App", function () {
 
     const filtersTitle = [
       ...host.querySelectorAll("h3.collapsible-title"),
-    ].find((element) => element.textContent === "Filters");
+    ].find((element) => element.textContent === "筛选器");
     filtersTitle.parentElement.dispatchEvent(
       new MouseEvent("click", { bubbles: true }),
     );

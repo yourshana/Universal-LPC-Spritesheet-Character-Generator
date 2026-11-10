@@ -31,17 +31,17 @@ const DownloadContent: m.Component<{
         m(
           "button.button.is-small.is-primary",
           { onclick: model.saveSpritesheet },
-          "Spritesheet (PNG)",
+          "精灵表 (PNG)",
         ),
         m(
           "button.button.is-small",
           { onclick: model.downloadCreditsTxt },
-          "Credits (TXT)",
+          "署名 (TXT)",
         ),
         m(
           "button.button.is-small",
           { onclick: model.downloadCreditsCsv },
-          "Credits (CSV)",
+          "署名 (CSV)",
         ),
         m(
           "button.button.is-small.is-info",
@@ -50,7 +50,7 @@ const DownloadContent: m.Component<{
             title: model.zipTitle,
             onclick: model.exportZipByAnimation,
           },
-          "ZIP: Split by animation",
+          "ZIP: 按动画拆分",
         ),
         model.zipByAnimationRunning ? m("span.loading") : null,
         m(
@@ -60,7 +60,7 @@ const DownloadContent: m.Component<{
             title: model.zipTitle,
             onclick: model.exportZipByItem,
           },
-          "ZIP: Split by item",
+          "ZIP: 按部件拆分",
         ),
         model.zipByItemRunning ? m("span.loading") : null,
         m(
@@ -70,7 +70,7 @@ const DownloadContent: m.Component<{
             title: model.zipTitle,
             onclick: model.exportZipByAnimationAndItem,
           },
-          "ZIP: Split by animation and item",
+          "ZIP: 按动画和部件拆分",
         ),
         model.zipByAnimationAndItemRunning ? m("span.loading") : null,
         m(
@@ -80,7 +80,7 @@ const DownloadContent: m.Component<{
             title: model.zipTitle,
             onclick: model.exportZipByAnimationAndFrame,
           },
-          "ZIP: Split by animation and frame",
+          "ZIP: 按动画和帧拆分",
         ),
         model.zipIndividualFramesRunning ? m("span.loading") : null,
         m(
@@ -89,12 +89,12 @@ const DownloadContent: m.Component<{
             onclick: async () =>
               reportClipboardResult(
                 await model.exportJsonToClipboard(),
-                "Exported to clipboard!",
-                "Failed to copy to clipboard:",
-                "Failed to copy to clipboard. Please check browser permissions.",
+                "已导出到剪贴板！",
+                "复制到剪贴板失败：",
+                "复制到剪贴板失败。请检查浏览器权限。",
               ),
           },
-          "Export to Clipboard (JSON)",
+          "导出到剪贴板 (JSON)",
         ),
         m(
           "button.button.is-small.is-link",
@@ -102,12 +102,12 @@ const DownloadContent: m.Component<{
             onclick: async () =>
               reportClipboardResult(
                 await model.importJsonFromClipboard(),
-                "Imported successfully!",
-                "Failed to import from clipboard:",
-                "Failed to import. Please check clipboard content and browser permissions.",
+                "导入成功！",
+                "从剪贴板导入失败：",
+                "导入失败。请检查剪贴板内容和浏览器权限。",
               ),
           },
-          "Import from Clipboard (JSON)",
+          "从剪贴板导入 (JSON)",
         ),
       ],
     );
@@ -120,7 +120,7 @@ export const Download: m.Component<{
   view(vnode) {
     return m(
       CollapsibleSection,
-      { title: "Download", defaultOpen: true },
+      { title: "下载", defaultOpen: true },
       m(DownloadContent, { createModel: vnode.attrs.createModel }),
     );
   },

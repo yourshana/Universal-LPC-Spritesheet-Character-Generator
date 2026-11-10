@@ -8,8 +8,8 @@ export const SearchControl: m.Component<{
   view(vnode) {
     const model = vnode.attrs.createModel();
     return m("div.field", [
-      m("label.label", "Search:"),
-      m("input.input[type=search][placeholder=Search]", {
+      m("label.label", "搜索:"),
+      m("input.input[type=search][placeholder=搜索]", {
         value: model.value,
         disabled: model.disabled,
         title: model.title,

@@ -32,7 +32,7 @@ export const FiltersPanel: m.Component<FiltersPanelAttrs> = {
     return m(
       CollapsibleSection,
       {
-        title: "Filters",
+        title: "筛选器",
         defaultOpen: true,
       },
       [
