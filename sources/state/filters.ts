@@ -187,3 +187,30 @@ export function isNodeAnimationCompatible(
 
   return false;
 }
+
+/** Union of `tags` across all current selections (drives tag dependencies). */
+export function getSelectedTags(
+  catalog: CatalogReader,
+  state: State,
+): Set<string> {
+  const tags = new Set<string>();
+  for (const selection of Object.values(state.selections)) {
+    const meta = catalog.getItemMerged(selection.itemId).unwrapOr(null);
+    for (const tag of meta?.tags ?? []) tags.add(tag);
+  }
+  return tags;
+}
+
+/** Whether an item's required/excluded tags match the current selection tags. */
+export function isItemTagCompatible(
+  meta: { required_tags?: string[]; excluded_tags?: string[] },
+  selectedTags: Set<string>,
+): boolean {
+  for (const tag of meta.required_tags ?? []) {
+    if (!selectedTags.has(tag)) return false;
+  }
+  for (const tag of meta.excluded_tags ?? []) {
+    if (selectedTags.has(tag)) return false;
+  }
+  return true;
+}

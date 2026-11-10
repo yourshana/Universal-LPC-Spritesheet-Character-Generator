@@ -30,6 +30,9 @@ type MetadataView = Partial<ItemMerged>;
 
 type ZipMode = { isRunning: boolean };
 
+/** How the category tree is presented: free browsing or step-by-step wizard. */
+export type CharacterCreationMode = "browse" | "wizard";
+
 /** Global application state. Mutated in place; Mithril views observe via redraw. */
 export type State = {
   // saved in URL hash
@@ -54,6 +57,12 @@ export type State = {
   isRenderingCharacter: boolean;
   enabledLicenses: Record<string, boolean>;
   enabledAnimations: Record<string, boolean>;
+  characterCreationMode: CharacterCreationMode;
+  wizardStep: number;
+  /** Wizard species choice: filters species-tagged items (e.g. heads). */
+  wizardSpecies: "human" | "nonhuman" | null;
+  /** Wizard mode: show full previews instead of the lightweight four-view. */
+  showFullPreview: boolean;
 
   // transient (never saved)
   zipByAnimation: ZipMode;
@@ -152,6 +161,10 @@ export function createState(): State {
     enabledAnimations: Object.fromEntries(
       ANIMATIONS.map((anim) => [anim.value, false]),
     ),
+    characterCreationMode: "browse",
+    wizardStep: 0,
+    wizardSpecies: "human",
+    showFullPreview: false,
 
     // Following transient state should never be saved
     zipByAnimation: { isRunning: false },

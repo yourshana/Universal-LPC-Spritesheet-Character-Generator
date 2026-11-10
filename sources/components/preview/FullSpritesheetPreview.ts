@@ -156,6 +156,9 @@ export const FullSpritesheetPreview: m.Component<
   },
   view(vnode) {
     const { catalog, state } = vnode.attrs;
+    if (state.characterCreationMode === "wizard" && !state.showFullPreview) {
+      return null;
+    }
     return m(
       CollapsibleSection,
       {

@@ -40,6 +40,7 @@ import "./components/tree/ItemWithVariants_spec.js";
 import "./components/tree/ItemWithRecolors_spec.js";
 import "./components/tree/PaletteSelectModal_spec.js";
 import "./components/tree/TreeModels_spec.ts";
+import "./components/tree/Wizard_spec.js";
 import "./components/preview/AnimationPreview_spec.js";
 import "./components/preview/FullSpritesheetPreview_spec.js";
 import "./components/preview/ScrollableContainer_spec.js";

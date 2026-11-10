@@ -66,10 +66,12 @@ export const App: m.Component<AppAttrs, AppState> = {
     }
   },
   view(vnode) {
-    const { state, models } = vnode.attrs;
+    const { catalog, state, models } = vnode.attrs;
     return m("div", [
       m(Download, { createModel: models.createDownloadModel }),
       m(FiltersPanel, {
+        catalog,
+        state,
         // Models are meant to be created lazily when the leaf components need it
         createSearchControlModel: models.createSearchControlModel,
         createLicenseFiltersModel: models.createLicenseFiltersModel,

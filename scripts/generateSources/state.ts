@@ -348,13 +348,7 @@ function stripRecolorEntryZeroVariantsForEmit(
 }
 
 /** Generator-only keys. Emitted item lite omits these; in-memory GeneratorItem keeps them. */
-export const UNUSED_LITE_EMIT_KEYS = [
-  "licenses",
-  "tags",
-  "required_tags",
-  "excluded_tags",
-  "priority",
-] as const;
+export const UNUSED_LITE_EMIT_KEYS = ["licenses", "priority"] as const;
 
 function omitUnusedLiteEmitFields(
   lite: Omit<GeneratorItem, "layers" | "credits">,

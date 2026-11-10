@@ -212,6 +212,7 @@ function createTreeNodeModel(
   name: string,
   node: TreeNodeShape,
   pathPrefix = "",
+  forceExpanded = false,
 ): TreeNodeModel | null {
   const nodePath = pathPrefix ? `${pathPrefix}-${name}` : name;
   const searchQuery = state.searchQuery;
@@ -223,6 +224,7 @@ function createTreeNodeModel(
   if (searchQuery.length >= 2 && !hasSearchMatches) return null;
 
   const isExpanded =
+    forceExpanded ||
     (searchQuery.length >= 2 && hasSearchMatches) ||
     state.expandedNodes[nodePath] ||
     false;
@@ -236,7 +238,14 @@ function createTreeNodeModel(
     ? Object.entries(node.children ?? {}).map(([childName, childNode]) => ({
         key: childName,
         createModel: () =>
-          createTreeNodeModel(catalog, state, childName, childNode, nodePath),
+          createTreeNodeModel(
+            catalog,
+            state,
+            childName,
+            childNode,
+            nodePath,
+            forceExpanded,
+          ),
       }))
     : [];
 
@@ -277,6 +286,31 @@ function createTreeNodeModel(
       if (isCompatible) state.expandedNodes[nodePath] = !isExpanded;
     },
   };
+}
+
+/**
+ * Create a force-expanded node model for a category path (wizard mode).
+ * `path` is the category key sequence, e.g. `["head", "faces"]`.
+ */
+export function createTreeNodeModelForPath(
+  catalog: CatalogReader,
+  state: State,
+  path: string[],
+): TreeNodeModel | null {
+  if (path.length === 0) return null;
+  const tree = catalog.getCategoryTree().unwrapOr(null) as TreeNodeShape | null;
+  if (!tree) return null;
+
+  let node: TreeNodeShape = tree;
+  for (const segment of path) {
+    const child = node.children?.[segment] as TreeNodeShape | undefined;
+    if (!child) return null;
+    node = child;
+  }
+
+  const name = path[path.length - 1];
+  const prefix = path.slice(0, -1).join("-");
+  return createTreeNodeModel(catalog, state, name, node, prefix, true);
 }
 
 export const treeNodeModelFactory = {

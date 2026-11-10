@@ -17,6 +17,7 @@ import {
 import PinchToZoom from "./PinchToZoom.ts";
 import { ScrollableContainer } from "./ScrollableContainer.ts";
 import { PreviewMetadataLoadingOverlay } from "./PreviewMetadataLoadingOverlay.ts";
+import { FourViewPreview } from "./FourViewPreview.ts";
 import type { CatalogReader } from "../../state/catalog.ts";
 
 type PreviewCanvasAttrs = {
@@ -169,6 +170,27 @@ export const AnimationPreview: m.Component<
       }
     }
 
+    if (state.characterCreationMode === "wizard" && !state.showFullPreview) {
+      return m(
+        CollapsibleSection,
+        { title: "四视图预览", defaultOpen: true, boxClass: "box" },
+        [
+          m("div.buttons.mb-2", [
+            m(
+              "button.button.is-small",
+              {
+                onclick: () => {
+                  state.showFullPreview = true;
+                },
+              },
+              "展开全部预览",
+            ),
+          ]),
+          m(FourViewPreview, { state }),
+        ],
+      );
+    }
+
     return m(
       CollapsibleSection,
       {
@@ -177,6 +199,19 @@ export const AnimationPreview: m.Component<
         boxClass: "box",
       },
       [
+        state.characterCreationMode === "wizard"
+          ? m("div.buttons.mb-2", [
+              m(
+                "button.button.is-small",
+                {
+                  onclick: () => {
+                    state.showFullPreview = false;
+                  },
+                },
+                "收起为四视图",
+              ),
+            ])
+          : null,
         m("div.columns.is-multiline", [
           m("div.column", [
             m("div.field.is-horizontal.is-align-items-center", [

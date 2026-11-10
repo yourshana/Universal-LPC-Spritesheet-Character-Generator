@@ -4,6 +4,7 @@ import sinon from "sinon";
 import {
   activeCustomAnimation,
   getCustomAnimations,
+  paintStaticFourView,
   repaintStaticPreviewFrameForTests,
   setCurrentCustomAnimations,
   setCustomAnimYPositions,
@@ -52,6 +53,13 @@ describe("canvas/preview-animation.ts", () => {
     }
     previewEl = null;
     errorStub.restore();
+  });
+
+  describe("paintStaticFourView", () => {
+    it("paints a single static frame without throwing", () => {
+      expect(() => paintStaticFourView(state, "walk")).to.not.throw();
+      expect(activeCustomAnimation).to.equal(null);
+    });
   });
 
   describe("setPreviewAnimation", () => {

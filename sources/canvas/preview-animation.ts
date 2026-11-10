@@ -149,6 +149,12 @@ function paintPreviewFrameForCycleIndex(
   }
 }
 
+/** Paint one static frame (4 directions side by side) without the rAF loop. */
+export function paintStaticFourView(state: State, animationName: string): void {
+  setPreviewAnimation(animationName);
+  paintPreviewFrameForCycleIndex(state, 0);
+}
+
 /**
  * When Playwright sets `__DISABLE_PREVIEW_ANIMATION__`, we paint once instead of using rAF.
  * The first paint can run before `renderCharacter` finishes; call this after any redraw that

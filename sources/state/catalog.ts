@@ -85,6 +85,12 @@ export type ItemLite = {
   variants: string[];
   path: string[];
   preview_row?: number;
+  /** Traits this item provides (e.g. "human", "goblin"). */
+  tags?: string[];
+  /** Traits the current selection must have for this item to be offered. */
+  required_tags?: string[];
+  /** Traits that hide this item when present in the current selection. */
+  excluded_tags?: string[];
 };
 
 export type Credit = {
