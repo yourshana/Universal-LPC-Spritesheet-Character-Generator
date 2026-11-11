@@ -17,7 +17,13 @@ import {
 import { tName } from "../../i18n.ts";
 import { capitalize } from "../../utils/helpers.ts";
 import { categoryTreeModelFactory } from "../../models/category-tree.ts";
+import {
+  confirmUpdateActive,
+  getActivePreset,
+  requestSavePreset,
+} from "../../state/presets.ts";
 import { BodyTypeSelector } from "./BodyTypeSelector.ts";
+import { PresetBar } from "./PresetBar.ts";
 
 type CategoryStepSpec = {
   path: string[];
@@ -265,18 +271,20 @@ function variantLabel(variant: string): string {
   return capitalize(spaced);
 }
 
-// Item ids whose color/variant rows are currently expanded.
-const expandedColors = new Set<string>();
-
-function toggleColors(itemId: string): void {
+function toggleColors(state: State, itemId: string): void {
+  const expandedColors = state.wizardExpandedColors;
   if (expandedColors.has(itemId)) expandedColors.delete(itemId);
   else expandedColors.add(itemId);
 }
 
-function colorToggleButton(itemId: string, isExpanded: boolean): m.Vnode {
+function colorToggleButton(
+  state: State,
+  itemId: string,
+  isExpanded: boolean,
+): m.Vnode {
   return m(
     "button.button.is-small.is-text",
-    { onclick: () => toggleColors(itemId) },
+    { onclick: () => toggleColors(state, itemId) },
     isExpanded ? "收起颜色" : "改颜色",
   );
 }
@@ -285,7 +293,7 @@ function renderChoice(state: State, itemId: string, meta: ItemMerged): m.Vnode {
   const group = getSelectionGroup(itemId);
   const selection = state.selections[group];
   const isSelected = selection?.itemId === itemId;
-  const colorsExpanded = expandedColors.has(itemId);
+  const colorsExpanded = state.wizardExpandedColors.has(itemId);
 
   if (meta.variants?.length) {
     const defaultVariant = meta.variants[0] ?? "";
@@ -304,7 +312,7 @@ function renderChoice(state: State, itemId: string, meta: ItemMerged): m.Vnode {
         },
         tName(meta.name),
       ),
-      m("div.mt-1", colorToggleButton(itemId, colorsExpanded)),
+      m("div.mt-1", colorToggleButton(state, itemId, colorsExpanded)),
       colorsExpanded
         ? m(
             "div.buttons.mt-1",
@@ -344,7 +352,7 @@ function renderChoice(state: State, itemId: string, meta: ItemMerged): m.Vnode {
         },
         tName(meta.name),
       ),
-      m("div.mt-1", colorToggleButton(itemId, colorsExpanded)),
+      m("div.mt-1", colorToggleButton(state, itemId, colorsExpanded)),
       colorsExpanded
         ? m(
             "div.buttons.mt-1",
@@ -405,7 +413,7 @@ function renderSkintoneStep(catalog: CatalogReader, state: State): m.Vnode {
   const group = getSelectionGroup("body");
   const selection = state.selections[group];
   const isSelected = selection?.itemId === "body";
-  const colorsExpanded = expandedColors.has("body");
+  const colorsExpanded = state.wizardExpandedColors.has("body");
   const colors = getBodySkinColors(catalog, state);
 
   return m("div.choice-item.m-1", [
@@ -423,7 +431,7 @@ function renderSkintoneStep(catalog: CatalogReader, state: State): m.Vnode {
       },
       tName(meta.name),
     ),
-    m("div.mt-1", colorToggleButton("body", colorsExpanded)),
+    m("div.mt-1", colorToggleButton(state, "body", colorsExpanded)),
     colorsExpanded
       ? m(
           "div.buttons.mt-1",
@@ -599,22 +607,50 @@ export const Wizard: m.Component<{ catalog: CatalogReader; state: State }> = {
       state.wizardStep = Math.min(Math.max(n, 0), total - 1);
     };
 
+    const isLast = index === total - 1;
+
     const renderNavButtons = () => [
+      m(
+        "button.button.is-small.is-text",
+        { disabled: index === 0, onclick: () => goTo(0) },
+        "第一步",
+      ),
       m(
         "button.button.is-small",
         { disabled: index === 0, onclick: () => goTo(index - 1) },
         "上一步",
       ),
+      isLast
+        ? [
+            m(
+              "button.button.is-small.is-primary",
+              { onclick: () => requestSavePreset(state) },
+              "保存方案",
+            ),
+            m(
+              "button.button.is-small",
+              {
+                disabled: !getActivePreset(state),
+                onclick: () => confirmUpdateActive(state),
+              },
+              "更新方案",
+            ),
+          ]
+        : m(
+            "button.button.is-small.is-primary",
+            { onclick: () => goTo(index + 1) },
+            "下一步",
+          ),
       m(
-        "button.button.is-small.is-primary",
-        { disabled: index === total - 1, onclick: () => goTo(index + 1) },
-        index === total - 1 ? "完成" : "下一步",
+        "button.button.is-small.is-text",
+        { disabled: isLast, onclick: () => goTo(total - 1) },
+        "最后一步",
       ),
     ];
 
     return m("div.wizard", [
       m(
-        "div.is-flex.is-align-items-center.is-justify-content-space-between.mb-2",
+        "div.is-flex.is-flex-wrap-wrap.is-align-items-center.is-justify-content-space-between.mb-2",
         [
           m("div.buttons", renderNavButtons()),
           m(
@@ -629,6 +665,8 @@ export const Wizard: m.Component<{ catalog: CatalogReader; state: State }> = {
         value: index + 1,
         max: total,
       }),
+
+      m(PresetBar, { state }),
 
       m(
         "div.wizard-step-content.mt-2",

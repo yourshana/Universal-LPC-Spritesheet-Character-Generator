@@ -73,6 +73,7 @@ import {
   initState,
 } from "./state/state.ts";
 import { initHashChangeListener } from "./state/hash.ts";
+import { loadPresets } from "./state/presets.ts";
 
 // Import components
 import { App } from "./components/App.ts";
@@ -85,6 +86,7 @@ import { PerformanceProfiler } from "./performance-profiler.ts";
 // Start metadata fetch at entry-module time so it overlaps HTML parse.
 const applicationCatalog = createLoadedCatalog();
 const applicationState = createState();
+applicationState.presets = loadPresets();
 const applicationModels = createApplicationModels(
   applicationCatalog,
   applicationState,

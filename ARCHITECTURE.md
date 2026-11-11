@@ -177,6 +177,7 @@ Verifying it needs a real browser.
 | `palettes.ts` | Recolor resolution: `getMultiRecolors`, `getTargetPalette`, `parseRecolorKey` |
 | `path.ts` | Sprite URL building (`getSpritePath`, `replaceInPath`) |
 | `preview-canvas-loading.ts` | Preview overlay state machine |
+| `presets.ts` | Saved character presets ("人物方案"): localStorage read/write, `saveCurrentPreset`, `loadPreset`, rename, update, delete |
 | `resolve-hash-param.ts` | Hash value to item id resolution, including aliases, and expansion of interned `v` / `r` / `p` |
 | `state.ts` | `createState()`, `selectItem`, `selectDefaults`, `initState`, `configureStateCatalog`, and the `setStateDeps` / `resetStateDeps` / `getStateDeps` test seam |
 | `zip.ts` | The four ZIP export orchestrators |
@@ -216,7 +217,7 @@ Verifying it needs a real browser.
 
 | Directory | Role |
 | --- | --- |
-| `tree/` | Body-type selector and the recursive category tree; palette modal |
+| `tree/` | Body-type selector, the recursive category tree, the step-by-step wizard, and its saved-preset bar; palette modal |
 | `filters/` | Search, license, and animation filter controls |
 | `selections/` | Read-only summary of the current selections |
 | `preview/` | Animated preview and full-spritesheet preview panels |

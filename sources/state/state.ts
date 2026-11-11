@@ -3,6 +3,7 @@ import m from "mithril";
 import { LICENSE_CONFIG, ANIMATIONS, BODY_TYPES } from "./constants.ts";
 import { syncSelectionsToHash, loadSelectionsFromHash } from "./hash.ts";
 import type { CatalogReader, ItemMerged } from "./catalog.ts";
+import type { CharacterPreset, PresetEditor } from "./presets.ts";
 import { renderCharacter } from "../canvas/renderer.ts";
 
 /** A single item selection within a selection group (e.g. body, head, ears). */
@@ -63,8 +64,18 @@ export type State = {
   wizardSpecies: "human" | "nonhuman" | null;
   /** Wizard mode: show full previews instead of the lightweight four-view. */
   showFullPreview: boolean;
+  /** Saved character presets ("人物方案"), hydrated from storage at boot. */
+  presets: CharacterPreset[];
+  /** Preset loaded or just saved; drives the preset bar's 更新 action. */
+  activePresetId: string | null;
 
   // transient (never saved)
+  /** Inline rename state for the preset bar. */
+  presetEditor: PresetEditor;
+  /** True while 保存方案 asks whether to update the loaded preset instead. */
+  presetSavePrompt: boolean;
+  /** Wizard mode: item ids whose color/variant rows are expanded. */
+  wizardExpandedColors: Set<string>;
   zipByAnimation: ZipMode;
   zipByItem: ZipMode;
   zipByAnimationAndItem: ZipMode;
@@ -165,8 +176,13 @@ export function createState(): State {
     wizardStep: 0,
     wizardSpecies: "human",
     showFullPreview: false,
+    presets: [],
+    activePresetId: null,
 
     // Following transient state should never be saved
+    presetEditor: { editingId: null, draftName: "" },
+    presetSavePrompt: false,
+    wizardExpandedColors: new Set<string>(),
     zipByAnimation: { isRunning: false },
     zipByItem: { isRunning: false },
     zipByAnimationAndItem: { isRunning: false },

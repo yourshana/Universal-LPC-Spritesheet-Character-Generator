@@ -1,20 +1,33 @@
 import m from "mithril";
-import { assert } from "chai";
+import { expect } from "chai";
 import { describe, it, beforeEach, afterEach } from "mocha-globals";
 import { Wizard } from "../../../sources/components/tree/Wizard.ts";
 import {
   configureStateCatalog,
   createState,
+  type State,
 } from "../../../sources/state/state.ts";
-import { createCatalog } from "../../../sources/state/catalog.ts";
+import {
+  createCatalog,
+  type CatalogReader,
+  type CatalogWriter,
+} from "../../../sources/state/catalog.ts";
 import { BODY_TYPES } from "../../../sources/state/constants.ts";
 import { seedCatalog } from "../../browser-catalog-fixture.js";
 
+function buttonByText(host: ParentNode, text: string): HTMLButtonElement {
+  const button = [...host.querySelectorAll("button")].find(
+    (entry) => entry.textContent?.trim() === text,
+  );
+  if (!button) throw new Error(`Missing button: ${text}`);
+  return button as HTMLButtonElement;
+}
+
 describe("Wizard", function () {
-  let host;
-  let catalog;
-  let catalogWriter;
-  let state;
+  let host: HTMLDivElement;
+  let catalog: CatalogReader;
+  let catalogWriter: CatalogWriter;
+  let state: State;
 
   beforeEach(function () {
     ({ reader: catalog, writer: catalogWriter } = createCatalog());
@@ -58,23 +71,37 @@ describe("Wizard", function () {
   it("starts on the species step with progress and navigation", function () {
     m.render(host, m(Wizard, { catalog, state }));
 
-    assert.include(host.textContent, "第 1 步 / 共 17 步");
-    assert.include(host.textContent, "种族");
-    assert.include(host.textContent, "人类");
-    assert.include(host.textContent, "非人类");
-    assert.ok(
+    const text = host.textContent ?? "";
+    expect(text).to.include("第 1 步 / 共 17 步");
+    expect(text).to.include("种族");
+    expect(text).to.include("人类");
+    expect(text).to.include("非人类");
+    expect(
       [...host.querySelectorAll("button")].some(
-        (b) => b.textContent.trim() === "下一步",
+        (b) => b.textContent?.trim() === "下一步",
       ),
-    );
+    ).to.equal(true);
   });
 
   it("renders the skintone step with the body color choice", function () {
     state.wizardStep = 2; // 肤色
     m.render(host, m(Wizard, { catalog, state }));
 
-    assert.include(host.textContent, "第 3 步 / 共 17 步");
-    assert.include(host.textContent, "身体颜色");
+    const text = host.textContent ?? "";
+    expect(text).to.include("第 3 步 / 共 17 步");
+    expect(text).to.include("身体颜色");
+  });
+
+  it("jumps to the last step and back to the first", function () {
+    m.render(host, m(Wizard, { catalog, state }));
+
+    buttonByText(host, "最后一步").click();
+    m.redraw.sync();
+    expect(host.textContent ?? "").to.include("第 17 步 / 共 17 步");
+
+    buttonByText(host, "第一步").click();
+    m.redraw.sync();
+    expect(host.textContent ?? "").to.include("第 1 步 / 共 17 步");
   });
 
   it("filters options by selected tags (human excludes monster)", function () {
@@ -150,8 +177,9 @@ describe("Wizard", function () {
 
     m.render(host, m(Wizard, { catalog, state }));
 
-    assert.include(host.textContent, "Human Face");
-    assert.notInclude(host.textContent, "Goblin Face");
+    const text = host.textContent ?? "";
+    expect(text).to.include("Human Face");
+    expect(text).to.not.include("Goblin Face");
   });
 
   it("species choice filters the head step (human hides monster heads)", function () {
@@ -202,7 +230,8 @@ describe("Wizard", function () {
 
     m.render(host, m(Wizard, { catalog, state }));
 
-    assert.include(host.textContent, "Human Head");
-    assert.notInclude(host.textContent, "Goblin Head");
+    const text = host.textContent ?? "";
+    expect(text).to.include("Human Head");
+    expect(text).to.not.include("Goblin Head");
   });
 });
